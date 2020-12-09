@@ -8,7 +8,7 @@
 \usepackage{tikz} \usepackage{listings} \usepackage{graphicx}
 \usepackage{color} \usepackage{stmaryrd} \usepackage{cellspace}
 \usepackage[colorinlistoftodos,obeyDraft]{todonotes}
-\usepackage{ebproof}
+\usepackage{ebproof}\usepackage{cancel}
 \renewcommand{\comment}[1]{\todo[color=green!40]{#1}}
 
 
@@ -33,6 +33,7 @@ uniquename=init ]{biblatex}
 \newtheorem{remark}{Remark} \newtheorem*{claim}{Claim}
 
 \DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\des}{des}
 \newcommand*{\Coh}[3]{\ensuremath\mathsf{Coh}\;(#1:#2)[#3]}
 \newcommand*{\Ctx}{\ensuremath{\mathsf{Ctx}}}
 \newcommand*{\Sub}{\ensuremath{\mathsf{Sub}}}
@@ -44,9 +45,87 @@ uniquename=init ]{biblatex}
 \newcommand*{\drop}{\ensuremath{\mathsf{drop}}}
 \newcommand*{\supp}{\ensuremath{\mathsf{supp}}}
 \newcommand*{\fix}{\ensuremath{\mathsf{fix}}}
+\newcommand*{\X}{\ensuremath{\mathbf{X}}}
 
 \setlength\cellspacetoplimit{5pt} \setlength\cellspacebottomlimit{5pt}
 
 \begin{document}
 \maketitle
+
+\begin{definition}
+  Let a \emph{pre-globular net} be a tuple \(\X = (X,S,T)\) consisting of:
+  \begin{itemize}
+  \item A finite collection of objects \(X\) called cells, where each \(x \in X\) has a given dimension \(\dim(x)\).
+  \item A source relation \(s \subseteq X \times X\).
+  \item A target relation \(t \subseteq X \times X\).
+  \end{itemize}
+  We require that if \(xSy\), then \(\dim(x) < \dim(y)\) and if \(xTy\) then \(\dim(x) > \dim(y)\). We may say that the dimension of the pre-globular net is maximum of the dimensions of elements of \(X\). A maximal cell is a cell whose dimension matches that of the net.
+\end{definition}
+
+\begin{definition}
+  Given a pre-globular net \((X,S,T)\) and a subset \(Y \subseteq X\), define the \emph{descendants} of \(Y\), \(\des(Y)\), to be the smallest subset of \(X\) with \(Y \subseteq \des(Y)\) and if \(y \in \des(Y)\) and \(x \in X\) with \(x S y\) or \(y T x\) then \(x \in \des(Y)\).
+
+  Given \(x \in X\), define the \emph{transitive source} \(S^*(x)\) and \emph{transitive target} \(T^*(x)\) of \(x\) to be:
+  \begin{alignat*}{2}
+    &S^*(x) &&= \des(\{y \in X, ySx\})\\
+    &T^*(x) &&= \des(\{y \in X, xTy\})
+  \end{alignat*}
+
+  Finally say that \(x\) is \emph{source covered} by \(y\) if \(x \in S^*(y)\) but is not in \(T^*(y)\). Dually \(x\) is \emph{target covered} by \(y\) if \(x \in T^*(y)\) but not in \(S^*(y)\).
+\end{definition}
+
+\begin{definition}
+  Let \(\X = (X,S,T)\) be a pre-globular net. Let it's source \(\partial^-(\X)\) be given by \((X^-,S|_{X^-\times X^-},T|_{X^-\times X^-})\) where \(X^-\) is all non-maximal cells in \(X\) which are not target covered by a maximal cell. Dually \(\partial^+(\X)\) is given by \((X^+,S|_{X^+\times X^+},T|_{X^+\times X^+})\) with \(X^+\) being all non-maximal cells of \(X\) which are not source covered by a maximal cell.
+\end{definition}
+
+\begin{lemma}
+  If \(\X\) is a pre-globular net then so is \(\partial^-(\X)\) and \(\partial^+(\X)\).
+\end{lemma}
+\begin{proof}
+  This is clear from the definitions.
+\end{proof}
+
+\begin{definition}
+  Given a pre-globular net \(\X = (X,S,T)\), we can define a relation \(<_\X \subseteq X \times X\) by \(x <_\X y\) if either \(x S y\) or \(x T y\). Then define \(<_\X^*\) to be the transitive closure of \(<_\X\).
+
+  Let a subset \(Y \subseteq X\) be \emph{connected}, if for any \(a,b \in Y\), there is \(y_0,\dots,y_n\) such that \(y_i <_\X y_{i+1}\) for each \(i\).
+\end{definition}
+
+\begin{definition}
+  A pre-globular net \(\X = (X,S,T)\) is a \emph{globular net} if the following conditions hold:
+  \begin{itemize}
+  \item Dimensions of source/target: For any \(x \in X\) with \(\dim(x) = n+1\), there is a \(y\) and \(z\) with \(\dim(y)=\dim(z) = n\) and \(ySxTz\).
+  \item Maximality of source/target: If \(ySz\) and \(xSy\) or \(yTx\) then \(x\cancel{S}z\) and if \(zTy\) and \(xSy\) or \(yTx\) then \(z\cancel{T}x\).
+  \item Ordering: \(<_\X^*\) is a strict total order.
+  \item Connectedness of source/target: For any \(x \in X\), \(S^*(x)\) and \(T^*(x)\) are connected.
+  \item Globularity: For any cell \(x \in X\), \(\delta^-(S^*(x)) = \delta^-(T^*(x))\) and \(\delta^+(S^*(x)) = \delta^+(T^*(x))\).
+  \end{itemize}
+\end{definition}
+
+\begin{prop}
+  Any pasting diagram forms a globular net.
+\end{prop}
+
+\begin{definition}
+  Let \(\X\) be a globular net. A \emph{partition} of \(\X\) is two disjoint sets \(A,B\) such that \(A \cup B\) is all the maximal cells of \(\X\), and for all \(a \in A\), \(b \in B\) we have \(a <_\X^* b\).
+
+  A slice of \(\X = (X,S,T)\) along partition \((A,B)\), \(\X_{A,B}\), is given by \((X_{A,B},S|_{X_{A,B} \times X_{A,B}},T|_{X_{A,B} \times X_{A,B}})\) where \(X_{A,B}\) is all non maximal cells \(x \in X\) such that x is not source covered by any cell in \(A\) and not target covered by any cell in \(B\).
+\end{definition}
+
+\begin{remark}
+  The source of a globular net \((X,S,T)\) is the slice along \((\emptyset,X)\) and the target is the slice along \(X,\emptyset\).
+\end{remark}
+
+\begin{lemma}
+  If \(\X = (X,S,T)\) is a globular net and \((A,B)\) is a partition of \(\X\) then if \(x \in X_{A,B}\) and \(ySx\) or \(xTy\) then \(y \in X_{A,B}\).
+\end{lemma}
+\begin{proof}
+  Suppose \(ySx\) and \(y\) is source covered by a cell in \(A\). We will show that \(x\) is also source covered by a cell in \(A\). By symmetry this will be sufficient to prove the lemma.
+
+  Let \(y\) be covered by \(a \in A\).
+\end{proof}
+
+\begin{prop}
+  Any slice of a globular set is itself a globular set.
+\end{prop}
 \end{document}

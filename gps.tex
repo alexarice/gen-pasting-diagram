@@ -1,0 +1,52 @@
+\documentclass[draft]{article}
+
+\title{Generalised Pasting Diagrams} \author{Alex Rice}
+
+\usepackage{verbatim} \usepackage{geometry} \usepackage{amsmath}
+\usepackage{amssymb} \usepackage{amsfonts} \usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{tikz} \usepackage{listings} \usepackage{graphicx}
+\usepackage{color} \usepackage{stmaryrd} \usepackage{cellspace}
+\usepackage[colorinlistoftodos,obeyDraft]{todonotes}
+\usepackage{ebproof}
+\renewcommand{\comment}[1]{\todo[color=green!40]{#1}}
+
+
+\usetikzlibrary{positioning,cd}
+
+\usepackage[ backend=biber, style=numeric, citestyle=numeric,
+maxbibnames=99, isbn=false, doi=false, eprint=false, block=ragged,
+uniquename=init ]{biblatex}
+
+% \addbibresource{./citations/citations.bib}
+
+% \DefineBibliographyStrings{english}{%
+% bibliography = {References}, }
+
+\usepackage{hyperref} \usepackage[nameinlink,capitalise]{cleveref}
+\hypersetup{final}
+
+\newtheorem{theorem}{Theorem} \newtheorem{prop}[theorem]{Proposition}
+\newtheorem{cor}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma} \theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition} \theoremstyle{remark}
+\newtheorem{remark}{Remark} \newtheorem*{claim}{Claim}
+
+\DeclareMathOperator{\id}{id}
+\newcommand*{\Coh}[3]{\ensuremath\mathsf{Coh}\;(#1:#2)[#3]}
+\newcommand*{\Ctx}{\ensuremath{\mathsf{Ctx}}}
+\newcommand*{\Sub}{\ensuremath{\mathsf{Sub}}}
+\newcommand*{\Type}{\ensuremath{\mathsf{Type}}}
+\newcommand*{\Term}{\ensuremath{\mathsf{Term}}}
+\newcommand*{\arr}[3]{\ensuremath{#1 \to_{#2} #3}}
+\newcommand*{\FV}{\ensuremath{\mathsf{FV}}}
+\newcommand*{\sub}[2]{\ensuremath{#1\llbracket #2 \rrbracket}}
+\newcommand*{\drop}{\ensuremath{\mathsf{drop}}}
+\newcommand*{\supp}{\ensuremath{\mathsf{supp}}}
+\newcommand*{\fix}{\ensuremath{\mathsf{fix}}}
+
+\setlength\cellspacetoplimit{5pt} \setlength\cellspacebottomlimit{5pt}
+
+\begin{document}
+\maketitle
+\end{document}
